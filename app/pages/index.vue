@@ -1210,25 +1210,31 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useTheme } from 'vuetify'
+import type {
+  FormData,
+  TableItem,
+  ListItem,
+  TableHeader,
+  Theme
+} from '~/types'
 
-const theme = ref('light')
-const drawer = ref(true)
-const dialog = ref(false)
-const snackbar = ref(false)
-const tab = ref('tab-1')
-const rating = ref(4)
-const progress = ref(75)
-const skeletonLoading = ref(true)
+const theme = ref<Theme>('light')
+const drawer = ref<boolean>(true)
+const dialog = ref<boolean>(false)
+const snackbar = ref<boolean>(false)
+const tab = ref<string>('tab-1')
+const rating = ref<number>(4)
+const progress = ref<number>(75)
+const skeletonLoading = ref<boolean>(true)
 
-// Меню для date/time pickers
-const dateMenu = ref(false)
-const timeMenu = ref(false)
-const dateRangeMenu = ref(false)
-const multipleDateMenu = ref(false)
-const timeAmPmMenu = ref(false)
-const colorMenu = ref(false)
+const dateMenu = ref<boolean>(false)
+const timeMenu = ref<boolean>(false)
+const dateRangeMenu = ref<boolean>(false)
+const multipleDateMenu = ref<boolean>(false)
+const timeAmPmMenu = ref<boolean>(false)
+const colorMenu = ref<boolean>(false)
 
-const formData = ref({
+const formData = ref<FormData>({
   name: '',
   email: '',
   password: '',
@@ -1286,13 +1292,13 @@ const multipleDateText = computed(() => {
   return `${formData.value.multipleDates.length} дат выбрано`
 })
 
-const formatDate = (date: Date | string | null) => {
+const formatDate = (date: Date | string | null | undefined): string => {
   if (!date) return ''
   const d = typeof date === 'string' ? new Date(date) : date
   return d.toLocaleDateString('ru-RU')
 }
 
-const tableHeaders = [
+const tableHeaders: TableHeader[] = [
   { title: 'ID', key: 'id', sortable: true },
   { title: 'Название', key: 'name' },
   { title: 'Категория', key: 'category' },
@@ -1300,7 +1306,7 @@ const tableHeaders = [
   { title: 'Действия', key: 'actions', sortable: false },
 ]
 
-const tableItems = [
+const tableItems: TableItem[] = [
   { id: 1, name: 'Товар 1', category: 'Электроника', price: '10 000 ₽' },
   { id: 2, name: 'Товар 2', category: 'Одежда', price: '2 500 ₽' },
   { id: 3, name: 'Товар 3', category: 'Книги', price: '500 ₽' },
@@ -1308,7 +1314,7 @@ const tableItems = [
   { id: 5, name: 'Товар 5', category: 'Электроника', price: '25 000 ₽' },
 ]
 
-const listItems = [
+const listItems: ListItem[] = [
   {
     avatar: 'https://i.pravatar.cc/150?img=1',
     title: 'Иван Иванов',
@@ -1328,27 +1334,27 @@ const listItems = [
 
 const vuetifyTheme = useTheme()
 
-const toggleTheme = () => {
+const toggleTheme = (): void => {
   theme.value = vuetifyTheme.global.name.value === 'light' ? 'dark' : 'light'
   vuetifyTheme.global.name.value = theme.value
 }
 
-const scrollToSection = (id: string) => {
+const scrollToSection = (id: string): void => {
   const element = document.getElementById(id)
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' })
   }
 }
 
-const scrollToTop = () => {
+const scrollToTop = (): void => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-const editItem = (item: any) => {
+const editItem = (item: TableItem): void => {
   console.log('Редактирование:', item)
 }
 
-const deleteItem = (item: any) => {
+const deleteItem = (item: TableItem): void => {
   console.log('Удаление:', item)
 }
 
